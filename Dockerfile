@@ -15,6 +15,19 @@ RUN add-apt-repository ppa:pinepain/libv8-5.2 -y && \
     add-apt-repository ppa:ondrej/php -y && \
     apt-get update
 
+# Install mysql-client, necessary for drush
+RUN apk add --no-cache mysql-client
+
+# Add memcached, redis
+RUN apk add libmemcached-dev redis
+
+# Create /temp_dir for using
+RUN mkdir /temp_docker && chmod -R +x /temp_docker && cd /temp_docker
+
+# Install php-fpm
+RUN apk add --no-cache php7-fpm
+
+# Install base php libs
 RUN apk add --no-cache php7.1-dev php7-openssl \
     php7.1-common php7.1-ftp php7.1-gd \
     php7.1-sockets \
@@ -29,10 +42,11 @@ RUN apk add --no-cache php7.1-dev php7-openssl \
     php7.1-pcntl php7.1-posix php7.1-apcu php7.1-simplexml \
     php7.1-pdo \
     php7.1-mysqlnd php7.1-pdo_mysql php7.1-mysqli \
-    php7.1-pgsql php7.1-pdo_pgsql
-
-# Create /temp_dir for using
-RUN mkdir /temp_docker && chmod -R +x /temp_docker && cd /temp_docker
+    php7.1-pgsql php7.1-pdo_pgsql php7.1-gmp \
+    php7.1-imagick php7.1-xmlrpc php7.1-dba \
+    php7.1-odbc php7.1-cgi php7.1-pspell \
+    php7.1-amqp php7.1-yaml php7.1-oauth \
+    php7.1-readline php7.1-geoip php7.1-recode
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
