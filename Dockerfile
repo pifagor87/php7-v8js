@@ -16,19 +16,17 @@ RUN add-apt-repository ppa:pinepain/libv8-5.2 -y && \
     apt-get update
 
 # Install mysql-client, necessary for drush
-RUN apk add --no-cache mysql-client
+RUN apt-get install mysql-client
 
 # Add memcached, redis
-RUN apk add libmemcached-dev redis
+RUN apt-get install libmemcached-dev redis
 
 # Create /temp_dir for using
 RUN mkdir /temp_docker && chmod -R +x /temp_docker && cd /temp_docker
 
-# Install php-fpm
-RUN apk add --no-cache php7-fpm
-
 # Install base php libs
-RUN apk add --no-cache php7.1-dev php7-openssl \
+RUN apt-get install -y --force-yes \
+    php7.1-fpm php7.1-dev php7-openssl \
     php7.1-common php7.1-ftp php7.1-gd \
     php7.1-sockets \
     php7.1-zlib php7.1-bz2 php7.1-pear php7.1-cli \
