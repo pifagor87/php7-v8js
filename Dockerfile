@@ -12,29 +12,32 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl wget git zip unzip libcurl3-openssl-dev
 
 RUN add-apt-repository ppa:pinepain/libv8-5.2 -y && \
-    add-apt-repository ppa:ondrej/php -y && \
-    apt-get update
+    add-apt-repository ppa:ondrej/php -y
 
 # Create /temp_dir for using
 RUN mkdir /temp_docker && chmod -R +x /temp_docker && cd /temp_docker
 
 # Install base php libs
-RUN apt-get install -y --force-yes \
+RUN apt-get update && apt-get install -y --force-yes \
     php7.1-fpm php7.1-dev php7-openssl \
     php7.1-common php7.1-ftp php7.1-gd \
     php7.1-sockets php7.1-cgi \
-    php7.1-zlib php7.1-bz2 php7.1-pear php7.1-cli \
+    php7.1-zlib php7.1-bz2 php-pear php7.1-cli \
     php7.1-exif php7.1-phar php7.1-zip php7.1-calendar \
     php7.1-iconv php7.1-imap hp7.1-soap \
-    php7.1-mbstring php7.1-bcmath \
-    php7.1-mcrypt php7.1-curl php7.1-json \
+    php-mbstring php7.1-bcmath \
+    php7.1-mcrypt php-curl php7.1-json \
     php7.1-opcache php7.1-ctype php7.1-xml \
     php7.1-xsl php7.1-ldap php7.1-xmlwriter php7.1-xmlreader \
-    php7.1-intl php7.1-tokenizer php7.1-session  \
+    php-intl php7.1-tokenizer php7.1-session  \
     php7.1-pcntl php7.1-posix php7.1-apcu php7.1-simplexml \
     php7.1-pdo \
     php7.1-mysqlnd php7.1-pdo_mysql php7.1-mysqli \
-    php7.1-pgsql php7.1-pdo_pgsql php7.1-gmp
+    php7.1-pgsql php7.1-pdo_pgsql php7.1-gmp \
+    php7.1-imagick php7.1-xmlrpc php7.1-dba \
+    php7.1-odbc php7.1-pspell \
+    php7.1-amqp php7.1-yaml php7.1-oauth \
+    php7.1-readline php7.1-geoip php7.1-recode
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
