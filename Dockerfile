@@ -15,9 +15,6 @@ RUN add-apt-repository ppa:pinepain/libv8-5.2 -y && \
     add-apt-repository ppa:ondrej/php -y && \
     apt-get update
 
-# Add memcached, redis
-RUN apt-get install libmemcached-dev redis
-
 # Create /temp_dir for using
 RUN mkdir /temp_docker && chmod -R +x /temp_docker && cd /temp_docker
 
