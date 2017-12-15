@@ -18,6 +18,10 @@ RUN apt-get update && apt-get install -y --force-yes \
     php7.1-fpm php7.1-dev \
     php7.1-mysql php7.1-xml php-curl php-intl php-pear php-mbstring php7.1-gd
 
+RUN pecl install mongodb-1.2.2
+RUN docker-php-ext-install bcmath
+RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
+
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
     php composer-setup.php && \
@@ -48,9 +52,6 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo bash - && \
     apt-get update && apt-get install yarn && \
     yarn global add gulp-cli && \
     yarn global add webpack
-
-RUN apt-get update || apt-get update && apt-get install php7.1-mongodb \
-  && docker-php-ext-enable mongodb
 
 # Install xdebug
 RUN cd /temp_docker && wget https://xdebug.org/files/xdebug-$XDEBUG_VERSION.tgz
