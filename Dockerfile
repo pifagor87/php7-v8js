@@ -19,7 +19,6 @@ RUN apt-get update && apt-get install -y --force-yes \
     php7.1-mysql php7.1-xml php-curl php-intl php-pear php-mbstring php7.1-gd
 
 RUN pecl install mongodb-1.2.2
-RUN docker-php-ext-install bcmath
 RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
