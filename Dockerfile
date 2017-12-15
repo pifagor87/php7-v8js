@@ -15,9 +15,6 @@ RUN add-apt-repository ppa:pinepain/libv8-5.2 -y && \
     add-apt-repository ppa:ondrej/php -y && \
     apt-get update
 
-# Install mysql-client, necessary for drush
-RUN apt-get install mysql-client
-
 # Add memcached, redis
 RUN apt-get install libmemcached-dev redis
 
