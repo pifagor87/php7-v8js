@@ -49,7 +49,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo bash - && \
     yarn global add gulp-cli && \
     yarn global add webpack
 
-RUN pecl install mongodb \
+RUN apt-get update && apt-get install php7.1-mongodb \
   && docker-php-ext-enable mongodb
 
 # Install xdebug
