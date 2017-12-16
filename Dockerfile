@@ -35,6 +35,9 @@ RUN apt-get update && apt-get install -y --force-yes \
     php7.1-readline php7.1-geoip php7.1-recode php-xdebug
 
 # Install libsodium
+RUN cd /tmp && \
+    git clone -b stable https://github.com/jedisct1/libsodium.git \
+    && cd libsodium && ./configure && make check && make install
 RUN pecl install -f libsodium
 RUN echo 'extension=libsodium.so' >> /etc/php/7.1/fpm/conf.d/libsodium.ini
 RUN echo 'extension=libsodium.so' >> /etc/php/7.1/cli/conf.d/libsodium.ini
