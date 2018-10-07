@@ -18,7 +18,7 @@ RUN add-apt-repository ppa:pinepain/libv8-archived -y && \
     add-apt-repository ppa:ondrej/php -y
 
 RUN apt-get update && apt-get install -y --force-yes \
-    php7.1-fpm php7.1-dev \
+    php7.1-fpm php7.1-dev php7.1-mbstring \
     php7.1-common php7.1-ftp php7.1-gd \
     php7.1-sockets php7.1-cgi \
     php7.1-bz2 php-pear php7.1-cli \
