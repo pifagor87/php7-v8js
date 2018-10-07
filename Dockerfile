@@ -109,6 +109,8 @@ RUN apt-get update && apt-get upgrade --force-yes -y
 
 RUN mkdir -p /var/www/html
 
+# Clean trash
+RUN rm -rf /temp_docker
 RUN rm -f /etc/php/7.1/fpm/pool.d/*
 COPY conf/pool.d/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 COPY conf/pool.d/zz-docker.conf /etc/php/7.1/fpm/pool.d/zz-docker.conf
