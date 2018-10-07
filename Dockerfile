@@ -28,22 +28,14 @@ RUN apt-get update && apt-get install -y --force-yes \
     php-intl php7.1-tokenizer php7.1-pdo \
     php7.1-posix php7.1-apcu php7.1-simplexml \
     php7.1-mysqlnd php7.1-mysqli \
-    php7.1-pgsql php7.1-gmp libsodium-dev \
+    php7.1-pgsql php7.1-gmp \
     php7.1-imagick php7.1-xmlrpc php7.1-dba \
     php7.1-odbc php7.1-pspell libmemcached-dev \
     php7.1-amqp php7.1-yaml php7.1-oauth \
     php7.1-readline php7.1-geoip php7.1-recode php-xdebug
 
-# Install libsodium
-RUN cd /tmp && \
-    git clone -b stable https://github.com/jedisct1/libsodium.git \
-    && cd libsodium && ./configure && make check && make install
-RUN pecl install -f libsodium
-RUN echo 'extension=libsodium.so' >> /etc/php/7.1/fpm/conf.d/libsodium.ini
-RUN echo 'extension=libsodium.so' >> /etc/php/7.1/cli/conf.d/libsodium.ini
-
 RUN phpenmod pdo_mysql && phpenmod pdo_pgsql && phpenmod session \
-    phpenmod zlib && phpenmod pcntl && phpenmod openssl && phpenmod libsodium
+    phpenmod zlib && phpenmod pcntl && phpenmod openssl
 
 RUN pecl install mongodb-1.2.2
 RUN echo "extension=mongodb.so" >> /etc/php/7.1/fpm/conf.d/30-mongodb.ini
