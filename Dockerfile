@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-transport-https git python libglib2.0-dev \
     curl wget git zip unzip libcurl3-openssl-dev
 
-RUN add-apt-repository ppa:pinepain/libv8 -y && \
+RUN add-apt-repository ppa:pinepain/libv8-archived -y && \
     add-apt-repository ppa:ondrej/php -y
 
 RUN apt-get update && apt-get install -y --force-yes \
@@ -51,7 +51,7 @@ RUN composer require paragonie/halite:^v3.3.0
 
 RUN apt install -y python-pip && pip install awscli
 
-RUN apt-get install libv8
+RUN apt-get install libv8-archived
 
 RUN cd /tmp && \
     git clone https://github.com/phpv8/v8js.git && \
