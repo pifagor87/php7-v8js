@@ -5,6 +5,9 @@ MAINTAINER pifagor87<pifagor87@gmail.com>
 # Set the env variable DEBIAN_FRONTEND to noninteractive
 ENV DEBIAN_FRONTEND noninteractive
 
+# Drush version
+ENV DRUSH_VERSION 8.x
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils gcc libsasl2-dev lib32z1-dev libldap2-dev libssl-dev openssl \
     python-software-properties software-properties-common build-essential \
@@ -41,17 +44,17 @@ RUN pecl install mongodb-1.2.2
 RUN echo "extension=mongodb.so" >> /etc/php/7.1/fpm/conf.d/30-mongodb.ini
 RUN echo "extension=mongodb.so" >> /etc/php/7.1/cli/conf.d/30-mongodb.ini
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
-    php composer-setup.php && \
-    php -r "unlink('composer-setup.php');" && \
-    mv /composer.phar /usr/bin/composer && sudo chmod +x /usr/bin/composer
-
-RUN composer require paragonie/halite:^v3.3.0
+# Create /temp_dir for using
+RUN mkdir /temp_docker && chmod -R +x /temp_docker
+# Add setup drush and composer script
+COPY setup_extensions/composer_drush.sh /temp_docker/composer_drush.sh
+RUN chmod -R +x /temp_docker && cd /temp_docker && bash /temp_docker/composer_drush.sh $DRUSH_VERSION
+# Clean trash
+RUN cd .. && rm -rf /temp_docker
 
 RUN apt install -y python-pip && pip install awscli
 
-RUN apt-get install libv8-archived
+RUN apt-get install libv8-5.2
 
 RUN cd /tmp && \
     git clone https://github.com/phpv8/v8js.git && \
