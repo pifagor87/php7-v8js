@@ -120,7 +120,8 @@ COPY conf/cli.ini /etc/php/7.1/cli/php.ini
 
 RUN service php7.1-fpm start
 
-RUN /usr/bin/composer global require 'drush/drush:^8.0'
+RUN echo 'PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+RUN /bin/bash -c "source ~/.bashrc"
 
 EXPOSE 9000
 CMD ["php-fpm7.1", "--nodaemonize", "--force-stderr"]
